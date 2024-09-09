@@ -1,10 +1,8 @@
 package com.pedro.Lista_Tarefas.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +27,11 @@ public class Item {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Boolean active;
-
+    @ManyToOne
+    @JoinTable(name = "list_items",
+            joinColumns = {@JoinColumn (name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "list_id")})
+    @JsonManagedReference
+    private ListItems listItems;
 
 }
