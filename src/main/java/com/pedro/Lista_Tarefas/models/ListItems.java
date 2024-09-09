@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class List {
+public class ListItems {
 
     private String id;
     private String name;
