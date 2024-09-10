@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/list")
+@RequestMapping("/api/lists")
 public class ListController {
 
     @Autowired
