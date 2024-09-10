@@ -4,7 +4,7 @@ package com.pedro.Lista_Tarefas.models;
 public enum Status {
 
     PENDENTE("pendente"),
-    FAZENDO("fazendo"),
+    EM_ANDAMENTO("em_andamento"),
     FEITO("feito");
 
     private String status;

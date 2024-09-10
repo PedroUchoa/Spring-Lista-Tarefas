@@ -1,6 +1,7 @@
 package com.pedro.Lista_Tarefas.controllers;
 
 import com.pedro.Lista_Tarefas.dtos.CreateListDto;
+import com.pedro.Lista_Tarefas.exceptions.ListNotFoundException;
 import com.pedro.Lista_Tarefas.models.ListItems;
 import com.pedro.Lista_Tarefas.services.ListItemService;
 import jakarta.transaction.Transactional;
@@ -30,7 +31,7 @@ public class ListController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ListItems> getListById(@PathVariable String id){
+    public ResponseEntity<ListItems> getListById(@PathVariable String id) throws ListNotFoundException {
         ListItems listItems = listItemService.getListById(id);
         return ResponseEntity.ok().body(listItems);
     }
@@ -42,13 +43,13 @@ public class ListController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateList(@RequestBody CreateListDto dto, @PathVariable String id){
+    public ResponseEntity<Void> updateList(@RequestBody CreateListDto dto, @PathVariable String id) throws ListNotFoundException {
         listItemService.updateList(dto,id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteList(@PathVariable String id){
+    public ResponseEntity<Void> deleteList(@PathVariable String id) throws ListNotFoundException {
         listItemService.deleteList(id);
         return ResponseEntity.noContent().build();
     }

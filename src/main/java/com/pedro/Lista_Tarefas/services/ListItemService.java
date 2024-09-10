@@ -1,6 +1,7 @@
 package com.pedro.Lista_Tarefas.services;
 
 import com.pedro.Lista_Tarefas.dtos.CreateListDto;
+import com.pedro.Lista_Tarefas.exceptions.ListNotFoundException;
 import com.pedro.Lista_Tarefas.models.Item;
 import com.pedro.Lista_Tarefas.models.ListItems;
 import com.pedro.Lista_Tarefas.repositories.ListItemRepository;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.management.ListenerNotFoundException;
 
 @Service
 public class ListItemService {
@@ -21,8 +24,8 @@ public class ListItemService {
         return listItems;
     }
 
-    public ListItems getListById(String id){
-        ListItems listItems= listItemRepository.getReferenceById(id);
+    public ListItems getListById(String id) throws ListNotFoundException {
+        ListItems listItems= listItemRepository.findById(id).orElseThrow(()->new ListNotFoundException(id));
         listItems.setItems(listItems.getItems().stream().filter(Item::getIsActive).toList());
         return listItems;
     }
@@ -35,14 +38,15 @@ public class ListItemService {
         return list;
     }
 
-    public void updateList(CreateListDto list, String id){
-        ListItems listItems = listItemRepository.getReferenceById(id);
+    public void updateList(CreateListDto list, String id) throws ListNotFoundException {
+        ListItems listItems = listItemRepository.findById(id).orElseThrow(()->new ListNotFoundException(id));
         listItems.updateList(list);
         listItemRepository.save(listItems);
     }
 
-    public void deleteList(String id){
-        ListItems  list =listItemRepository.getReferenceById(id);
+    public void deleteList(String id) throws ListNotFoundException {
+        ListItems  list =listItemRepository.findById(id).orElseThrow(()->new ListNotFoundException(id));
+        if (!list.getIsActive()) throw new ListNotFoundException(id);
         listItemRepository.delete(list);
     }
 
