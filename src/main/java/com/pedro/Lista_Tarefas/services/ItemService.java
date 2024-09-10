@@ -39,10 +39,11 @@ public class ItemService {
         return itemRepository.findByNameContainingAndListItemsIdAndIsActiveTrue(name,id);
     }
 
-    public void updateItem(EditItemDto itemDto, String id) throws ItemNotFoundException {
+    public Item updateItem(EditItemDto itemDto, String id) throws ItemNotFoundException {
         Item item = itemRepository.findById(id).orElseThrow(()->new ItemNotFoundException(id));
         item.updateItem(itemDto);
         itemRepository.save(item);
+        return item;
     }
 
     public void desactiveItem(String id) throws ItemNotFoundException {

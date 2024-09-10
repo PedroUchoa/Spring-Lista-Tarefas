@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.management.ListenerNotFoundException;
-
 @Service
 public class ListItemService {
 
@@ -31,23 +29,24 @@ public class ListItemService {
     }
 
 
-
     public Page<ListItems> getAllLists(Pageable pageable){
         Page<ListItems> list = listItemRepository.findAllByIsActiveTrue(pageable);
         list.getContent().forEach(x->x.setItems(x.getItems().stream().filter(Item::getIsActive).toList()));
         return list;
     }
 
-    public void updateList(CreateListDto list, String id) throws ListNotFoundException {
+    public ListItems updateList(CreateListDto list, String id) throws ListNotFoundException {
         ListItems listItems = listItemRepository.findById(id).orElseThrow(()->new ListNotFoundException(id));
         listItems.updateList(list);
         listItemRepository.save(listItems);
+        return listItems;
     }
 
     public void deleteList(String id) throws ListNotFoundException {
         ListItems  list =listItemRepository.findById(id).orElseThrow(()->new ListNotFoundException(id));
         if (!list.getIsActive()) throw new ListNotFoundException(id);
-        listItemRepository.delete(list);
+        list.desactiveList();
+        listItemRepository.save(list);
     }
 
 }

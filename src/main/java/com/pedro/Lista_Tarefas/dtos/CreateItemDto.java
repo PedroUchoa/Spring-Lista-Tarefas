@@ -4,6 +4,7 @@ import com.pedro.Lista_Tarefas.models.Status;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.NoArgsConstructor;
 
 public record CreateItemDto(
         @NotEmpty(message = "The Name Can't be empty")
