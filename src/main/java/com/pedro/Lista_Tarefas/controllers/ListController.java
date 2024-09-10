@@ -5,6 +5,7 @@ import com.pedro.Lista_Tarefas.exceptions.ListNotFoundException;
 import com.pedro.Lista_Tarefas.models.ListItems;
 import com.pedro.Lista_Tarefas.services.ListItemService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,7 @@ public class ListController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CreateListDto> createList(@RequestBody CreateListDto createListDto, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<CreateListDto> createList(@Valid @RequestBody CreateListDto createListDto, UriComponentsBuilder uriBuilder){
         ListItems listItems = listItemService.createList(createListDto);
         URI uri = uriBuilder.path("/list/{id}").buildAndExpand(listItems.getId()).toUri();
         return ResponseEntity.created(uri).body(createListDto);
@@ -43,7 +44,7 @@ public class ListController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateList(@RequestBody CreateListDto dto, @PathVariable String id) throws ListNotFoundException {
+    public ResponseEntity<Void> updateList(@Valid @RequestBody CreateListDto dto, @PathVariable String id) throws ListNotFoundException {
         listItemService.updateList(dto,id);
         return ResponseEntity.noContent().build();
     }

@@ -2,14 +2,13 @@ package com.pedro.Lista_Tarefas.controllers;
 
 import com.pedro.Lista_Tarefas.dtos.CreateItemDto;
 import com.pedro.Lista_Tarefas.dtos.EditItemDto;
-import com.pedro.Lista_Tarefas.dtos.UpdateItemDto;
 import com.pedro.Lista_Tarefas.exceptions.ItemNotFoundException;
 import com.pedro.Lista_Tarefas.exceptions.ListNotFoundException;
 import com.pedro.Lista_Tarefas.models.Item;
 import com.pedro.Lista_Tarefas.services.ItemService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,7 +25,7 @@ public class ItemController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Item> createItem(@RequestBody CreateItemDto createItemDto, UriComponentsBuilder uriComponentsBuilder) throws ListNotFoundException {
+    public ResponseEntity<Item> createItem(@Valid @RequestBody CreateItemDto createItemDto, UriComponentsBuilder uriComponentsBuilder) throws ListNotFoundException {
         Item item =itemService.createItem(createItemDto);
         URI uri = uriComponentsBuilder.path("/item/{id}").buildAndExpand(item.getId()).toUri();
         return ResponseEntity.created(uri).body(item);
@@ -45,7 +44,7 @@ public class ItemController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<Void> updateItem(@PathVariable String id, @RequestBody EditItemDto itemDto) throws ItemNotFoundException {
+    public ResponseEntity<Void> updateItem(@PathVariable String id,@Valid @RequestBody EditItemDto itemDto) throws ItemNotFoundException {
         itemService.updateItem(itemDto,id);
         return ResponseEntity.noContent().build();
     }
