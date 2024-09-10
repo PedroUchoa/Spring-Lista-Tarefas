@@ -1,6 +1,8 @@
 package com.pedro.Lista_Tarefas.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pedro.Lista_Tarefas.dtos.CreateItemDto;
 import jakarta.persistence.*;
@@ -12,6 +14,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "Item")
 @Table(name = "items")
 @Getter
@@ -34,7 +37,7 @@ public class Item {
     @JoinTable(name = "list_items",
             joinColumns = {@JoinColumn (name = "items_id")},
             inverseJoinColumns = {@JoinColumn(name = "list_id")})
-    @JsonManagedReference
+    @JsonBackReference
     private ListItems listItems;
 
     public Item(CreateItemDto createItemDto) {

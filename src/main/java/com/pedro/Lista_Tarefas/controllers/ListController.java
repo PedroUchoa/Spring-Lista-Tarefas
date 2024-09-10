@@ -5,11 +5,11 @@ import com.pedro.Lista_Tarefas.models.ListItems;
 import com.pedro.Lista_Tarefas.services.ListItemService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -29,4 +29,30 @@ public class ListController {
         return ResponseEntity.created(uri).body(createListDto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ListItems> getListById(@PathVariable String id){
+        ListItems listItems = listItemService.getListById(id);
+        return ResponseEntity.ok().body(listItems);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Page<ListItems>> getAllLists(@PageableDefault(size = 10, sort = {"id"}) Pageable pageable){
+        Page<ListItems> listItems = listItemService.getAllLists(pageable);
+        return ResponseEntity.ok().body(listItems);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Void> updateList(@RequestBody CreateListDto dto, @PathVariable String id){
+        listItemService.updateList(dto,id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteList(@PathVariable String id){
+        listItemService.deleteList(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
+
+

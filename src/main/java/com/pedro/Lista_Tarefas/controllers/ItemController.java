@@ -6,10 +6,7 @@ import com.pedro.Lista_Tarefas.services.ItemService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -27,6 +24,12 @@ public class ItemController {
         Item item =itemService.createItem(createItemDto);
         URI uri = uriComponentsBuilder.path("/item/{id}").buildAndExpand(item.getId()).toUri();
         return ResponseEntity.created(uri).body(item);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Item> getItemById(@PathVariable String id){
+        Item item = itemService.getItemById(id);
+        return ResponseEntity.ok().body(item);
     }
 
 }
