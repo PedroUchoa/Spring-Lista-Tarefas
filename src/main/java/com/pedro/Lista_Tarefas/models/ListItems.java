@@ -1,14 +1,12 @@
 package com.pedro.Lista_Tarefas.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pedro.Lista_Tarefas.CreateListDto;
+import com.pedro.Lista_Tarefas.dtos.CreateListDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

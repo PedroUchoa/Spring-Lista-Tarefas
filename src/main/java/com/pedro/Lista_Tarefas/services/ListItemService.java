@@ -1,6 +1,6 @@
 package com.pedro.Lista_Tarefas.services;
 
-import com.pedro.Lista_Tarefas.CreateListDto;
+import com.pedro.Lista_Tarefas.dtos.CreateListDto;
 import com.pedro.Lista_Tarefas.models.ListItems;
 import com.pedro.Lista_Tarefas.repositories.ListItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

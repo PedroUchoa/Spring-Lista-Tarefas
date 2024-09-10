@@ -2,6 +2,7 @@ package com.pedro.Lista_Tarefas.models;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.pedro.Lista_Tarefas.dtos.CreateItemDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,18 +23,24 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
-    @CreatedDate
-    private LocalDateTime startDate;
+    private String description;
+    private LocalDateTime startDate = LocalDateTime.now();
     private LocalDateTime endDate;
     private Boolean isActive=true;
     @Enumerated(EnumType.STRING)
     private Status status;
     private Boolean priority;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinTable(name = "list_items",
-            joinColumns = {@JoinColumn (name = "item_id")},
+            joinColumns = {@JoinColumn (name = "items_id")},
             inverseJoinColumns = {@JoinColumn(name = "list_id")})
     @JsonManagedReference
     private ListItems listItems;
 
+    public Item(CreateItemDto createItemDto) {
+        this.name = createItemDto.name();
+        this.description = createItemDto.description();
+        this.status = createItemDto.status();
+        this.priority=createItemDto.priority();
+    }
 }
