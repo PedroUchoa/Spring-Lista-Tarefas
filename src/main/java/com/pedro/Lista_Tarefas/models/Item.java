@@ -8,12 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "ListItems")
-@Table(name = "List")
+@Entity(name = "Item")
+@Table(name = "items")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,7 +25,10 @@ public class Item {
     @CreatedDate
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Boolean active;
+    private Boolean isActive=true;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    private Boolean priority;
     @ManyToOne
     @JoinTable(name = "list_items",
             joinColumns = {@JoinColumn (name = "item_id")},
