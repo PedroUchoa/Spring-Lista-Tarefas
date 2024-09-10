@@ -1,0 +1,1 @@
+alter table list_items ADD CONSTRAINT fk_items_id FOREIGN KEY(items_id) REFERENCES items(id)
