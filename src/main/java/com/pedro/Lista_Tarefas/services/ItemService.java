@@ -1,13 +1,14 @@
 package com.pedro.Lista_Tarefas.services;
 
 import com.pedro.Lista_Tarefas.dtos.CreateItemDto;
+import com.pedro.Lista_Tarefas.dtos.EditItemDto;
 import com.pedro.Lista_Tarefas.models.Item;
 import com.pedro.Lista_Tarefas.repositories.ItemRepository;
 import com.pedro.Lista_Tarefas.repositories.ListItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -30,9 +31,15 @@ public class ItemService {
         return itemRepository.getReferenceById(id);
     }
 
-    public Page<Item> getAllActives(String id, Pageable pageable){
-        return itemRepository.findByListItemsIdAndIsActiveTrue(id,pageable);
+    public List<Item> getByName(String name, String id){
+        System.out.println(name);
+        return itemRepository.findByNameContainingAndListItemsIdAndIsActiveTrue(name,id);
+    }
 
+    public void updateItem(EditItemDto itemDto, String id){
+        Item item = itemRepository.getReferenceById(id);
+        item.updateItem(itemDto);
+        itemRepository.save(item);
     }
 
     public void desactiveItem(String id) {

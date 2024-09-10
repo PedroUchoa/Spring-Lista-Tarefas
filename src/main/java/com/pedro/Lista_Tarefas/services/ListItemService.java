@@ -27,6 +27,8 @@ public class ListItemService {
         return listItems;
     }
 
+
+
     public Page<ListItems> getAllLists(Pageable pageable){
         Page<ListItems> list = listItemRepository.findAllByIsActiveTrue(pageable);
         list.getContent().forEach(x->x.setItems(x.getItems().stream().filter(Item::getIsActive).toList()));

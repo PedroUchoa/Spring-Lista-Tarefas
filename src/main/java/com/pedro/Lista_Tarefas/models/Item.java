@@ -3,14 +3,13 @@ package com.pedro.Lista_Tarefas.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pedro.Lista_Tarefas.dtos.CreateItemDto;
+import com.pedro.Lista_Tarefas.dtos.EditItemDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -50,5 +49,13 @@ public class Item {
     public void desactiveItem() {
         this.isActive = false;
         this.endDate = LocalDateTime.now();
+    }
+
+    public void updateItem(EditItemDto itemDto) {
+        if(itemDto.name() != null && !itemDto.name().equals(" ")) this.name = itemDto.name();
+
+        if(itemDto.description() != null && !itemDto.description().equals(" ")) this.description = itemDto.description();
+
+        if(itemDto.status() != null) this.status = itemDto.status();
     }
 }
