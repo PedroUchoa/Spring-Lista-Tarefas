@@ -5,6 +5,7 @@ import com.pedro.Lista_Tarefas.models.Item;
 import com.pedro.Lista_Tarefas.services.ItemService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/item")
+@RequestMapping("/api/items")
 public class ItemController {
 
     @Autowired
@@ -26,10 +27,18 @@ public class ItemController {
         return ResponseEntity.created(uri).body(item);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Item> getItemById(@PathVariable String id){
         Item item = itemService.getItemById(id);
         return ResponseEntity.ok().body(item);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> desactiveItem(@PathVariable String id){
+        itemService.desactiveItem(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }

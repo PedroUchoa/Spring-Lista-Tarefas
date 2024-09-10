@@ -46,4 +46,9 @@ public class Item {
         this.status = createItemDto.status();
         this.priority=createItemDto.priority();
     }
+
+    public void desactiveItem() {
+        this.isActive = false;
+        this.endDate = LocalDateTime.now();
+    }
 }
